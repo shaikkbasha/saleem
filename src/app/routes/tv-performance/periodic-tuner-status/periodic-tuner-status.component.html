@@ -1,0 +1,55 @@
+<art-flight-details [flightDetails]="flightDetails" [componentId]="['tv-periodic-tuner']"></art-flight-details>
+<art-section-title [sectionTitle]="['PERIODIC TUNER STATUS']"></art-section-title>
+<div class="mt-3" class="tv-sticky-table">
+  <table *ngIf="tableData?.length" id="periodic-tuner-status-table" class="table-borderless">
+    <thead>
+      <tr>
+        <th>
+          <div class="timeStamp"></div>
+        </th>
+        <th colspan="8">
+          <div class="text-center">BOARD 1</div>
+        </th>
+        <th colspan="8">
+          <div class="text-center">BOARD 2</div>
+        </th>
+        <th colspan="8">
+          <div class="text-center">BOARD 3</div>
+        </th>
+        <th colspan="8">
+          <div class="text-center">BOARD 4</div>
+        </th>
+        <th colspan="8">
+          <div class="text-center">BOARD 5</div>
+        </th>
+        <th colspan="8">
+          <div class="text-center">BOARD 6</div>
+        </th>
+        <th colspan="8">
+          <div class="text-center">BOARD 7</div>
+        </th>
+      </tr>
+      <tr class="tuner-header">
+        <th *ngFor="let col of displayedColumns" [ngClass]="{'board-col': col !== 'timeStamp', 'timeStampHeader': col === 'timeStamp'}">
+          <div class="tuner-{{col | slice : 2 : 3}}" *ngIf="col !== 'timeStamp'; else timeStampCol">{{col | slice : 2 :
+            3}}</div>
+          <ng-template #timeStampCol>
+            <div class="timeStamp">TIMESTAMP (UTC)</div>
+          </ng-template>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of tableData">
+        <td *ngFor="let col of displayedColumns">
+          <div class="tuner-{{col | slice : 2 : 3}}" [ngClass]="{'notUsed': data[col] === 'not_used', 'good': data[col] === 'good', 'warning': data[col] === 'warning',
+          'failure': data[col] === 'failure'}"
+            *ngIf="col !== 'timeStamp'; else timeStampDataCol"></div>
+          <ng-template #timeStampDataCol>
+            <div class="timeStampData">{{data[col] | date: 'MM/dd/yyyy HH:mm:ss' : 'UTC'}}</div>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
